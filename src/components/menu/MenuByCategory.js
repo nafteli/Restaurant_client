@@ -5,22 +5,22 @@ import { getall } from '../../api'
 
 export default () => {
     
-    // const pathname = window.location.pathname
-    // const split = pathname.split("/")
-    // const category = split[split.length-1]
-    // console.log("category:",category)
-    // const getwith = `menu/${category}`
-    // console.log(getwith)
+    const pathname = window.location.pathname
+    const split = pathname.split("/")
+    const category = split[split.length-1]
+    console.log("category:",category)
+    const getwith = `menu/${category}`
+    console.log(getwith)
     const [tasks, setTasks] = useState({});
 
 
 
 
     useEffect(() => async () => {
-        const data = await getall("menu")
+        console.log(getwith)
+        const data = await getall(getwith)
         console.log("data:",data)
         setTasks(data)
-        console.log("tasks.dishes:",tasks)
     }, [])
     
 
