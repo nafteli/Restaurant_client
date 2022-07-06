@@ -1,8 +1,6 @@
 import React from "react";
 
 export default ({task}) => {
-    const pathname = window.location.pathname
-    console.log("pathname:",pathname)
     console.log(task)
     return (
         <li className="list-grop-item">

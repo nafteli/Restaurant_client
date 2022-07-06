@@ -1,13 +1,19 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Nav, Navbar, Container, Row, Col }
+    from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
+import { BrowserRouter, Routes, Route ,Link } from "react-router-dom";
 import MenuList from './components/menu/menuList';
-import MenuByCategory from './components/menu/MenuByCategory';
+import MenuReservation from './components/menu/MenuReservation'
+// import MenuByCategory from './components/menu/MenuByCategory';
 import QueueList from './components/queue/queuelist';
 import TabaleList from './components/tabales/tabaleslist';
-import SideMenu from './components/defultComponent/sidebar';
+//import SideMenu from './components/defultComponent/sidebar';
 import Homepage from './components/homePage/homePage'
-import CreateGroup from './components/queue/queuInput'
+//import CreateGroup from './components/queue/queuInput'
+import CreateGroup from
+  "./components/queue/CreateGrup";
 
 
 
@@ -15,18 +21,67 @@ export default function App() {
 
   return (
     <>
-    <BrowserRouter>
-    <SideMenu />
+      <BrowserRouter>
+        <div className="App">
+          <header className="App-header">
+          <Navbar bg="dark" variant="dark">
+            <Container>
+
+            <Nav className="justify-content-end">
+              <Nav>
+              <Link to={"/QueueList/addgrop"}
+                className="nav-link">
+                Create Group
+              </Link>
+              </Nav>
+
+              <Nav>
+              <Link to={"/QueueList"}
+                className="nav-link">
+                Groups List
+              </Link>
+              </Nav>
+
+              <Nav>
+              <Link to={"/menu"}
+                className="nav-link">
+                show menu
+              </Link>
+              </Nav>
+
+              <Nav>
+              <Link to={"/tabel"}
+                className="nav-link">
+                tabels
+              </Link>
+              </Nav>
+            </Nav>
+            </Container>
+          </Navbar>
+          </header>
+
+          <Container>
+          <Row>
+            <Col md={12}>
+            <div className="wrapper">
+            </div>
+            </Col>
+          </Row>
+          </Container>
+        </div>
+        {/* <SideMenu /> */}
         <Routes>
-        <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/menu" element={<MenuList />} />
-          <Route path="/menu/starter" element={<MenuByCategory />} />
-          <Route path="/menu/Soups" element={<MenuByCategory />} />
-          <Route path="/menu/MainCourse" element={<MenuByCategory />} />
-          <Route path="/menu/desserts" element={<MenuByCategory />} />
+          <Route path="/menuReservation" element={<MenuReservation />} />
+          <Route path="/menu/starter" element={<MenuList />} />
+          <Route path="/menu/Soups" element={<MenuList />} />
+          <Route path="/menu/MainCourse" element={<MenuList />} />
+          <Route path="/menu/desserts" element={<MenuList />} />
           <Route path="/QueueList" element={<QueueList />} />
+          <Route path="/QueueList/addgrop" element={< CreateGroup />} />
           <Route path="/tabel" element={<TabaleList />} />
-          <Route path="/QueueList/addgrop" element={< CreateGroup/>} />
+
 
         </Routes>
       </BrowserRouter>
@@ -34,3 +89,14 @@ export default function App() {
 
   );
 }
+
+
+// // Import other React Component
+// import EditStudent from
+//   "./Components/edit-student.component";
+// import StudentList from
+//   "./Components/student-list.component";
+
+
+
+
