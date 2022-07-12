@@ -7,7 +7,7 @@ import MenuList from "../menu/menuList";
 
 
 const QueueTableRow = (props) => {
-    const { name, size, queue, GroupSeqNo, table, dishs } = props.obj;
+    const { name, size, queue, GroupSeqNo, table, dishs, arrivalTime } = props.obj;
 
     const deleteGruop = () => {
         axios
@@ -97,7 +97,7 @@ const QueueTableRow = (props) => {
             <td>{name}</td>
             <td>{size}</td>
             <td>{queue}</td>
-            <td>{GroupSeqNo}</td>
+            <td>{arrivalTime}</td>
             <td>{table ? table : "AwaittSit"}</td>
             <td>
                 <Buttons />
