@@ -34,6 +34,7 @@ return (
       <th>arrival time</th>
       <th>table</th>
       <th>Action</th>
+      <th>dseivh</th>
     </tr>
     </thead>
     <tbody>{DataTable()}</tbody>

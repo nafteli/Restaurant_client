@@ -73,7 +73,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/menu" element={<MenuList />} />
-          <Route path="/menuReservation" element={<MenuReservation />} />
+          <Route path="/menuReservation/:GroupSeqNo" element={<MenuReservation />} />
           <Route path="/menu/starter" element={<MenuList />} />
           <Route path="/menu/Soups" element={<MenuList />} />
           <Route path="/menu/MainCourse" element={<MenuList />} />

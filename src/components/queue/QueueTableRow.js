@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import MenuList from "../menu/menuList";
 
 
+
 const QueueTableRow = (props) => {
-    const { name, size, queue, GroupSeqNo, table } = props.obj;
+    const { name, size, queue, GroupSeqNo, table, dishs } = props.obj;
 
     const deleteGruop = () => {
         axios
@@ -69,16 +70,16 @@ const QueueTableRow = (props) => {
         }
         else if (queue === "sitting" && table != null) {
             return (
-                <><Link className="edit-link"
-                to={"/menuReservation"}>
-                menu
-                </Link>
-                <Button onClick={MenuList}
-                size="sm" >
-                go To Pay
-                </Button></>
-                
-                
+                <>
+                    <Link className="edit-link"
+                        to={`/menuReservation/${GroupSeqNo}`}>
+                        menu
+                    </Link>
+                    <Button onClick={MenuList}
+                        size="sm" >
+                        go To Pay
+                    </Button>
+                </>
             )
         }
         else if (queue === "awaitingbill" && table != null) {
