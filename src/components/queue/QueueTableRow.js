@@ -64,20 +64,18 @@ const QueueTableRow = (props) => {
             return (
                 <Button onClick={editGruops}
                     size="sm">
-                    find a vacancy
+                    Find a Table
                 </Button>
             )
         }
         else if (queue === "sitting" && table != null) {
             return (
                 <>
-                    <Link className="edit-link"
-                        to={`/menuReservation/${GroupSeqNo}`}>
-                        menu
-                    </Link>
+                    <Link
+                        to={`/menuReservation/${GroupSeqNo}`}>Reservation</Link>
                     <Button onClick={MenuList}
                         size="sm" >
-                        go To Pay
+                        Go To Pay
                     </Button>
                 </>
             )
@@ -86,7 +84,7 @@ const QueueTableRow = (props) => {
             return (
                 <Button onClick={deleteGruop}
                     size="sm" >
-                    pay now
+                    Pay Now
                 </Button>
             )
         }

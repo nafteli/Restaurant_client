@@ -3,7 +3,7 @@
 // Import Modules
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import QueueForem from "./QueueForem";
+import QueueForme from "./QueueForme";
 
 const CreateGroup = () => {
   const [formValues, setFormValues] =
@@ -23,11 +23,11 @@ const CreateGroup = () => {
   }
 
   return (
-    <QueueForem initialValues={formValues}
+    <QueueForme initialValues={formValues}
       onSubmit={onSubmit}
       enableReinitialize>
       Create group
-    </QueueForem>
+    </QueueForme>
   )
 }
 

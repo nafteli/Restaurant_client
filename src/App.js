@@ -45,14 +45,14 @@ export default function App() {
               <Nav>
               <Link to={"/menu"}
                 className="nav-link">
-                show menu
+                Show Menu
               </Link>
               </Nav>
 
               <Nav>
               <Link to={"/tabel"}
                 className="nav-link">
-                tabels
+                Tables
               </Link>
               </Nav>
             </Nav>
@@ -71,7 +71,7 @@ export default function App() {
         </div>
         {/* <SideMenu /> */}
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<CreateGroup />} />
           <Route path="/menu" element={<MenuList />} />
           <Route path="/menuReservation/:GroupSeqNo" element={<MenuReservation />} />
           <Route path="/menu/starter" element={<MenuList />} />

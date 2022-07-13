@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Badge } from "react-bootstrap";
+import { Table, Badge, Modal, Button } from "react-bootstrap";
+
+import { ModalTableRow } from './ModalTableRow'
+import { object } from "yup";
 
 
-const Total = (res, orders) => {
-    console.log("price from total:", res.price, "orders from total:", orders)
+
+
+const Total = (res, orders, pay) => {
+    console.log("price from total:", res.price, "orders from total:", orders, pay)
     // return (
-    //     <td>{orders}</td>
+    //     <>
+    //         <tr>
+    //             <td>{pay}</td>
+    //         </tr>
+    //     </>
     // )
 }
 
 
-const MenuTableRow = ({ id, name, category, price, orders, setOrders, starter }) => {
-    console.log(starter[id])
+const MenuTableRow = ({ id, name, category, price, orders, setOrders, starter, GroupSeqNo}) => {
+    // console.log(starter)
+    // console.log(GroupSeqNo)
+    if (starter[id] === object){window.location.reload()}
     if (starter[id] === undefined) { starter[id] = 0 }
     // const deleteFromSending = () => {
     //     let dataSend = []
@@ -41,7 +52,7 @@ const MenuTableRow = ({ id, name, category, price, orders, setOrders, starter })
                         setOrders({ ...orders, [id]: (orders[id] || 0) + 1 })
                     }} >+</button>
                     <Badge bg="dark" >{orders[id] >= 0 ? orders[id] : 0}</Badge>
-                    <button className="app" onClick={() => {
+                    <button className="app" disabled={!orders[id] > (starter[id]) } onClick={() => {
                         orders[id] > (starter[id]) ?
                             setOrders({ ...orders, [id]: (orders[id] || 0) - 1 })
                             : setOrders({ ...orders, [id]: (orders[id] || 0) - 0 })
@@ -55,7 +66,7 @@ const MenuTableRow = ({ id, name, category, price, orders, setOrders, starter })
 
 
 
-const sendData = (orders) => {
+const sendData = (orders, GroupSeqNo) => {
     // const GroupSeqNo = window.location.pathname.split("/").at(-1)
     // console.log(GroupSeqNo)
     axios.put(
@@ -71,14 +82,19 @@ const sendData = (orders) => {
 }
 
 
-const goToPay = (orders) => {
+const goToPay = (orders, handleShow, setPay) => {
     let GroupSeqNo = window.location.pathname.split("/").at(-1)
+    console.log(GroupSeqNo)
     axios.put(
-        `http://localhost:3000/api/gotppay/${GroupSeqNo}`, orders)
+        `http://localhost:3000/api/goToPay/${GroupSeqNo}`, orders)
         .then(res => {
-            console.log(GroupSeqNo)
-            if (res.status === 200)
-                alert('Order successfully received')
+            setPay(res.data.msg)
+            console.log(res.data.msg)
+            if (res.status === 200) {
+                return (
+                    handleShow()
+                )
+            }
             else
                 Promise.reject()
         })
@@ -86,19 +102,27 @@ const goToPay = (orders) => {
 }
 
 
-var starter = {};
-let GroupSeqNo = window.location.pathname.split("/").at(-1)
+
+
 const MenuReservation = () => {
-    const [pay, setPay] = useState({})
-    const [tasks, setTasks] = useState([])
+    const [starter, setStarter] = useState({})
+    const [menuData, setMenuData] = useState([])
+    const [pay, setPay] = useState(0)
     const [orders, setOrders] = useState({})
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [GroupSeqNo, setGroupSeqNo] = useState(window.location.pathname.split("/").at(-1))
+    const [buttonDown, setButtonDown] = useState(false)
+    const DownTrue = () => setButtonDown(true)
+    const DownFalse = () => setButtonDown(false)
 
     useEffect(() => {
         axios.get(`http://localhost:3000/api/ShowQueue/${GroupSeqNo}`)
-            .then((test) => {
-                setOrders(test.data.dishs);
-                starter = test.data.dishs
-                console.log("test.data.dishs", test.data.dishs)
+            .then((res) => {
+                setOrders(res.data.dishs);
+                setStarter(res.data.dishs)
+                console.log("res.data.dishs", res.data.dishs)
             })
             .catch((error) => {
                 console.log(error);
@@ -112,7 +136,7 @@ const MenuReservation = () => {
             .get("http://localhost:3000/api/menu")
             .then(({ data }) => {
                 //console.log("data in useEffect:", data)
-                setTasks(data);
+                setMenuData(data);
             })
             .catch((error) => {
                 console.log(error);
@@ -120,16 +144,34 @@ const MenuReservation = () => {
     }, []);
 
     const DataTable = () => {
-        return tasks.map((res, i) => {
-            // console.log("data from data to table in one task", tasks)
-            return <MenuTableRow {...res} key={i} orders={orders} setOrders={setOrders} starter={starter} />;
+        return menuData.map((res, i) => {
+            // console.log("data from data to table in one task", menuData)
+            return <MenuTableRow {...res} 
+            key={i} orders={orders} 
+            setOrders={setOrders} starter={starter} 
+            GroupSeqNo={GroupSeqNo}/>;
+        });
+    };
+
+    const DataTableModal = () => {
+        return menuData.map((res, i) => {
+            return <ModalTableRow {...res} key={i} orders={orders} />;
         });
     };
 
     const totalPay = () => {
-        return tasks.map((res) => {
-            return <Total {...res} orders={orders} />
+        return menuData.map((res) => {
+            return <Total {...res} orders={orders} pay={pay} setPay={setPay} />
         })
+    }
+
+    const goToPayButton = () => {
+        if(starter !== {}){
+            return(
+                <button onClick={() => goToPay(orders, handleShow, setPay, pay, GroupSeqNo)}>Go To Pay</button>
+            )
+        }
+        else{}
     }
 
     return (
@@ -141,19 +183,51 @@ const MenuReservation = () => {
                         <th>id</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>price</th>
+                        <th>Price</th>
                         <th>Quantity</th>
-                        <th>toPay</th>
+                        <th>Pay</th>
                     </tr>
                 </thead>
                 <tbody>{DataTable()}</tbody>
                 <tr>total =  {totalPay()}</tr>
             </Table>
             <div>
-                <button onClick={() => sendData(orders)} > send </button>
-                <button onClick={() => goToPay(orders, )}>go to pay</button>
+                <button onClick={() => sendData(orders, GroupSeqNo)} > Send </button>
+                <button onClick={() => goToPay(orders, handleShow, setPay, pay)}>Go To Pay</button>
+                <>
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Total Pay</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>price</th>
+                                        <th>Quantity</th>
+                                        <th>to Pay</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{DataTableModal()}</tbody>
+                                {/* <tr>{totalPay()}</tr> */}
+                            </Table></Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="primary"
+                                onClick={handleClose}
+                                className="col btn btn-danger m-2 p-2 text-whait align-self-end">
+                                cancel
+                            </Button>
+                            <Button variant="secondary"
+                                onClick={handleClose}
+                                className="col btn btn-success m-2 p-2 text-whait align-self-end">
+                                pay now
+                            </Button>
+                        </Modal.Footer>
+                    </Modal></>
             </div>
-        </div>
+
+        </div >
     );
 };
 
