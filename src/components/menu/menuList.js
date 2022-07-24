@@ -9,7 +9,7 @@ const [tasks, setTasks] = useState([]);
 
 useEffect(() => {
   axios
-  .get("http://localhost:3000/api/menu")
+  .get("http://localhost:4000/api/menu")
   .then(({ data }) => {
     console.log(data)
     setTasks(data);

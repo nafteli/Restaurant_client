@@ -8,7 +8,7 @@ const [students, setStudents] = useState([]);
 
 useEffect(() => {
   axios
-  .get("http://localhost:3000/api/tabel")
+  .get("http://localhost:4000/api/tabel")
   .then(({ data }) => {
     setStudents(data);
   })

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 
 
 function CreateGroup() {
-  const baseURL = "http://localhost:3000/api/createGroup";
+  const baseURL = "http://localhost:4000/api/createGroup";
   const name = useRef(null);
   const size = useRef(null);
   const [postResult, setPostResult] = useState(null);

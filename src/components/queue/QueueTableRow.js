@@ -12,10 +12,10 @@ const QueueTableRow = (props) => {
     const deleteGruop = () => {
         axios
             .delete(
-                `http://localhost:3000/api/deleteGroup/${GroupSeqNo}`)
+                `http://localhost:4000/api/deleteGroup/${GroupSeqNo}`)
             .then((res) => {
                 if (res.status === 200) {
-                    alert("Group successfully deleted");
+                    alert(`${GroupSeqNo} successfully deleted`);
                     window.location.reload();
                 } else Promise.reject();
             })
@@ -25,7 +25,7 @@ const QueueTableRow = (props) => {
     const editGruops = () => {
         axios
             .put(
-                `http://localhost:3000/api/SitByPriority`)
+                `http://localhost:4000/api/SitByPriority`)
             .then((res) => {
                 if (res.status === 200) {
                     alert("Group successfully deleted");
@@ -62,10 +62,16 @@ const QueueTableRow = (props) => {
     const Buttons = () => {
         if (queue === "AwaittSit" && table == null) {
             return (
+                <div>
                 <Button onClick={editGruops}
                     size="sm">
                     Find a Table
                 </Button>
+                <Button onClick={deleteGruop}
+                size="sm" variant="danger">
+                Delete
+                </Button>
+                </div>
             )
         }
         else if (queue === "sitting" && table != null) {
@@ -94,6 +100,7 @@ const QueueTableRow = (props) => {
         <tr>
             <td>{name}</td>
             <td>{size}</td>
+            <td>{GroupSeqNo}</td>
             <td>{queue}</td>
             <td>{arrivalTime}</td>
             <td>{table ? table : "AwaittSit"}</td>
@@ -102,8 +109,8 @@ const QueueTableRow = (props) => {
                 {/* <Link className="edit-link"
                     to={"/edit-student/"}>
                     Edit
-                </Link>
-                <Button onClick={deleteGruop}
+                </Link> */}
+                {/* <Button onClick={()=>{deleteGruop()}}
                     size="sm" variant="danger">
                     Delete
                 </Button> */}

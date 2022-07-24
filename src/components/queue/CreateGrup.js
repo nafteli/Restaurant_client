@@ -4,15 +4,16 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import QueueForme from "./QueueForme";
+import { Link } from "react-router-dom";
 
 const CreateGroup = () => {
   const [formValues, setFormValues] =
     useState({ name: '', size: '' })
   // onSubmit handler
-  const onSubmit = studentObject => {
+  const onSubmit = groupObject => {
     axios.post(
-      'http://localhost:3000/api/createGroup',
-      studentObject)
+      'http://localhost:4000/api/createGroup',
+      groupObject)
       .then(res => {
         if (res.status === 200)
           alert('Student successfully created')
@@ -25,7 +26,7 @@ const CreateGroup = () => {
   return (
     <QueueForme initialValues={formValues}
       onSubmit={onSubmit}
-      enableReinitialize>
+      enableReinitialize >
       Create group
     </QueueForme>
   )

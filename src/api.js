@@ -1,6 +1,6 @@
 // import React, {useState, initialState} from "react"
 
-const host = 'http://localhost:3000/api/'
+const host = 'http://localhost:4000/api/'
 
 export async function getall(slug) {
     const res = await fetch(`${host}${slug}`)

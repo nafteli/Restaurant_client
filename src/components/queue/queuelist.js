@@ -8,7 +8,7 @@ const [students, setStudents] = useState([]);
 
 useEffect(() => {
   axios
-  .get("http://localhost:3000/api/ShowQueue/")
+  .get("http://localhost:4000/api/ShowQueue/")
   .then(({ data }) => {
     setStudents(data);
   })
@@ -30,6 +30,7 @@ return (
     <tr>
       <th>Name</th>
       <th>size</th>
+      <th>Group Seq No</th>
       <th>status</th>
       <th>arrival time</th>
       <th>table</th>

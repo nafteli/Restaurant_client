@@ -70,7 +70,7 @@ const sendData = (orders, GroupSeqNo) => {
     // const GroupSeqNo = window.location.pathname.split("/").at(-1)
     // console.log(GroupSeqNo)
     axios.put(
-        `http://localhost:3000/api/adddishs/${GroupSeqNo}`, orders)
+        `http://localhost:4000/api/adddishs/${GroupSeqNo}`, orders)
         .then(res => {
             if (res.status === 200)
                 alert('Order successfully received')
@@ -86,7 +86,7 @@ const goToPay = (orders, handleShow, setPay) => {
     let GroupSeqNo = window.location.pathname.split("/").at(-1)
     console.log(GroupSeqNo)
     axios.put(
-        `http://localhost:3000/api/goToPay/${GroupSeqNo}`, orders)
+        `http://localhost:4000/api/goToPay/${GroupSeqNo}`, orders)
         .then(res => {
             setPay(res.data.msg)
             console.log(res.data.msg)
@@ -118,7 +118,7 @@ const MenuReservation = () => {
     const DownFalse = () => setButtonDown(false)
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/ShowQueue/${GroupSeqNo}`)
+        axios.get(`http://localhost:4000/api/ShowQueue/${GroupSeqNo}`)
             .then((res) => {
                 setOrders(res.data.dishs);
                 setStarter(res.data.dishs)
@@ -133,7 +133,7 @@ const MenuReservation = () => {
     console.log(starter)
     useEffect(() => {
         axios
-            .get("http://localhost:3000/api/menu")
+            .get("http://localhost:4000/api/menu")
             .then(({ data }) => {
                 //console.log("data in useEffect:", data)
                 setMenuData(data);
